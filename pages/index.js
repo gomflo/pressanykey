@@ -1,82 +1,58 @@
 import Head from 'next/head'
+import { useEffect, useState } from 'react'
+import { useKey } from 'react-use'
+import { motion, useAnimation } from 'framer-motion'
+import clsx from 'clsx'
+
+const gradientsFrom = 'from-red-600 from-yellow-600 from-green-600 from-blue-600 from-indigo-600 from-purple-600 from-pink-600'.split(' ')
+const gradientsVia = 'via-gray-600 via-red-600 via-yello-600 via-green-600 via-blue-600 via-indigo-600 via-purple-600 via-pink-600'.split(' ')
+const gradientsTo = 'to-red-600 to-yellow-600 to-green-600 to-blue-600 to-indigo-600 to-purple-600 to-pink-600'.split(' ')
+const sharedStyles = 'text-9xl bg-gradient-to-br overflow-clip bg-clip-text text-transparent'
+
+function randomNumber(max = 6, min = 1) {
+  return Math.random() * (max - min + 1) + min
+}
 
 export default function Home() {
+
+  const controls = useAnimation()
+  const [keyPressed, setKeyPressed] = useState()
+
+  useKey(e => e.key, e => {
+    e.preventDefault()
+
+    let pressed
+    pressed = (e.code === 'Space') ? 'Space' : e.key
+    setKeyPressed(pressed)
+  })
+
+  useEffect(() => {
+
+    controls.stop()
+    controls.start({
+      transition: 'spring',
+      scale: [1, randomNumber(), randomNumber(5), 1],
+    })
+
+  }, [keyPressed])
+
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen py-2">
+    <div className="grid place-items-center min-h-screen font-black uppercase">
+
       <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
+        <title>Press Any Key · Relajate y deja tu hijo presione todas las teclas</title>
+        <meta name="description" content="Relajate y evita todo ese desastre cuando tu hijo, sobrino o mascota presionan todas las teclas." />
       </Head>
 
-      <main className="flex flex-col items-center justify-center w-full flex-1 px-20 text-center">
-        <h1 className="text-6xl font-bold">
-          Welcome to{' '}
-          <a className="text-blue-600" href="https://nextjs.org">
-            Next.js!
-          </a>
-        </h1>
+      {keyPressed &&
+        <motion.div
+          animate={controls}
+          className={clsx(sharedStyles, gradientsFrom[Math.floor(Math.random() * gradientsFrom.length)], gradientsTo[Math.floor(Math.random() * gradientsTo.length)], gradientsVia[Math.floor(Math.random() * gradientsVia.length)])}>{keyPressed}</motion.div>
+      }
 
-        <p className="mt-3 text-2xl">
-          Get started by editing{' '}
-          <code className="p-3 font-mono text-lg bg-gray-100 rounded-md">
-            pages/index.js
-          </code>
-        </p>
-
-        <div className="flex flex-wrap items-center justify-around max-w-4xl mt-6 sm:w-full">
-          <a
-            href="https://nextjs.org/docs"
-            className="p-6 mt-6 text-left border w-96 rounded-xl hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Documentation &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Find in-depth information about Next.js features and API.
-            </p>
-          </a>
-
-          <a
-            href="https://nextjs.org/learn"
-            className="p-6 mt-6 text-left border w-96 rounded-xl hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Learn &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Learn about Next.js in an interactive course with quizzes!
-            </p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className="p-6 mt-6 text-left border w-96 rounded-xl hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Examples &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Discover and deploy boilerplate example Next.js projects.
-            </p>
-          </a>
-
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className="p-6 mt-6 text-left border w-96 rounded-xl hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Deploy &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
-
-      <footer className="flex items-center justify-center w-full h-24 border-t">
-        <a
-          className="flex items-center justify-center"
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className="h-4 ml-2" />
-        </a>
-      </footer>
+      {!keyPressed &&
+        <div className={clsx(sharedStyles, gradientsFrom[Math.floor(Math.random() * gradientsFrom.length)], gradientsTo[Math.floor(Math.random() * gradientsTo.length)], gradientsVia[Math.floor(Math.random() * gradientsVia.length)])}>Press Any Key</div>
+      }
     </div>
   )
 }
