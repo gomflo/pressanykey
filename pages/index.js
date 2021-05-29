@@ -40,8 +40,9 @@ export default function Home() {
     <div className="grid place-items-center min-h-screen font-black uppercase">
 
       <Head>
-        <title>Press Any Key · Relajate y deja tu hijo presione todas las teclas</title>
-        <meta name="description" content="Relajate y evita todo ese desastre cuando tu hijo, sobrino o mascota presionan todas las teclas." />
+        <title>Press Any Key · Relájate y deja tu hijo presione todas las teclas</title>
+        <meta name="description" content="Relájate y evita todo ese desastre cuando tu hijo, sobrino o mascota presionan todas las teclas." />
+        <script async defer data-website-id="849faa38-4e24-4268-822a-7eb5894b3c2f" src="https://analytics.gomflo.dev/umami.js"></script>
       </Head>
 
       {keyPressed &&
